@@ -5,6 +5,8 @@ function App() {
   let [title, renametitle] = useState(['서울 데이트코스', '경기도 데이트코스', '강원도 데이트코스']);
   let [modal, closemodal] = useState(false);
   let [modaltitle, updatemodaltitle] = useState(0);
+  let [inputtitle, changeinput] = useState('');
+  
 
   function ConvertToSouthern(){
     let newArray = [...title];
@@ -33,6 +35,14 @@ function App() {
     closemodal(switchbutton);
   }
 
+  function addInput(){
+    let newArray = [...title];
+    newArray.push(inputtitle);
+    renametitle(newArray);
+  }
+
+
+
   return(
     <div className="App">
       <div className="black-nav">
@@ -45,24 +55,30 @@ function App() {
         <button onClick={ sortTitlebyOrder }>정렬</button>
       </div>
 
-      <div className="list">
+      <>
        {
          title.map(function(titles, i){
            return (
-             <div>
+             <div className = "list" key={i}>
                <h3 onClick={ ()=>updatemodaltitle(i) }> { titles } </h3>
-               <p>지역내 최우수 식당</p>
+               <p>데이트 명소 추천</p>
                <hr></hr>
              </div>
            )
          })
        }
-      </div>
+       </>
       
+
+      <div className="publish">
+        <input onChange={(e)=>{changeinput(e.target.value)}}/>
+        <button onClick={ addInput }>저장</button>
+      </div>
+
       <button onClick={ ModalSwitch }>자세히보기/닫기</button>
 
       {
-        modal == true
+        modal === true
         ? <Modal title={title} modaltitle={modaltitle}/>
         : null
       }
